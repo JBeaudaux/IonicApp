@@ -15,26 +15,56 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('ConnectCtrl', function($scope, LoginService, $ionicPopup, $state)
+{
+    $scope.data = {};
+ 
+    $scope.login = function() {
+        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+            $state.go('tab.dash');
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+    }
 })
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
   };
 })
-  .controller("IntroController", function($scope, $timeout, $state) {
-    $timeout(function() {
+
+
+.controller("IntroController", function($scope, $timeout, $state)
+{
+  //Sets a 5s timeout to go to next page
+  /*
+  $timeout(function()
+  {
       $state.go("tab.connect");
-    }, 5000);
+  }, 5000);
 
-    $scope.go = function() {
-      $state.go("tab.connect");
-    };
+  $scope.go = function()
+  {
+    $state.go("tab.connect");
+  };
+  */
 
-  })
+  $scope.data = {};
 
-  .controller("ExampleController", function($scope, $timeout) {
-  });
+  $scope.login = function() {
+    LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+      $state.go('tab.about');
+        }).error();
+  }
+
+})
+
+.controller("ExampleController", function($scope, $timeout)
+{
+});
 ;
