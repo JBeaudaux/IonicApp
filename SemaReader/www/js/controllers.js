@@ -38,8 +38,12 @@ angular.module('starter.controllers', [])
   };
 })
 
+.controller('AboutCtrl', function($scope)
+{
+  //Nothing to do right now
+})
 
-.controller("IntroController", function($scope, $timeout, $state)
+.controller("IntroCtrl", function($scope, $http, $timeout, $state, $ionicPopup)
 {
   //Sets a 5s timeout to go to next page
   /*
@@ -56,10 +60,35 @@ angular.module('starter.controllers', [])
 
   $scope.data = {};
 
-  $scope.login = function() {
-    LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
+  $scope.login = function()
+  {
+    /*if($scope.data.username == 'aaa' && $scope.data.password == "bbb")
+    {
+      $state.go('tab.inter');
+    }*/
+
+    //Establish connection to SEMA server
+    $http.get("http://172.16.16.204:8080/SemaServer/public/v1/info")
+    .success(function(data)
+    {
+      $state.go('tab.inter');
+    })
+    .error(function(data)
+    {
+      var alertPopup = $ionicPopup.alert({
+                title: 'Connection failed!',
+                template: 'Please check your credentials!'
+            });
+    });
+
+
+    /*LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data)
+    {
+      $state.go('tab.inter');
+    }).error(function(data)
+    {
       $state.go('tab.about');
-        }).error();
+    });*/
   }
 
 })

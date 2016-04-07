@@ -31,42 +31,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-    .state('intro', {
-      url: '/intro',
-      controller: "IntroController",
-      templateUrl: 'templates/intro.html'
-    })
+  .state('intro', {
+    url: '/intro',
+    controller: "IntroCtrl",
+    templateUrl: 'templates/intro.html'
+  })
 
 
-    // setup an abstract state for the tabs directive
-    .state('tab', {
+  // setup an abstract state for the tabs directive
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'
   })
 
   // Each tab has its own nav history stack:
-
-  .state('tab.connect', {
-    url: '/connect',
+  .state('tab.inter', {
+    url: '/inter',
     views: {
-      'tab-connect': {
-        templateUrl: 'templates/tab-connect.html',
-        controller: 'ConnectCtrl'
+      'tab-inter': {
+        templateUrl: 'templates/tab-inter.html',
+        controller: 'InterCtrl'
       }
     }
   })
-
-
-  .state('tab-inter', {
-      url: '/inter',
-      views: {
-        'tab-activity': {
-          templateUrl: 'templates/tab-inter.html',
-          controller: 'InterCtrl'
-        }
-      }
-    })
 
   .state('tab.settings', {
     url: '/settings',
@@ -77,15 +65,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
-    .state('tab.about', {
-      url: '/about',
-      views: {
-        'tab-about': {
-          templateUrl: 'templates/tab-about.html',
-          controller: 'AboutCtrl'
-        }
+
+  .state('tab.about', {
+    url: '/about',
+    views: {
+      'tab-about': {
+        templateUrl: 'templates/tab-about.html',
+        controller: 'AboutCtrl'
       }
-    })
+    }
+  })
 
   ;
 
