@@ -5,24 +5,24 @@ navigation history that also transitions its views in and out.
 -->
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-  <!-- Connection tab. Manage connected / disconnected -->
-  <ion-tab title="Connection" icon-off="ion-ios-unlocked-outline" icon-on="ion-ios-locked" href="#/tab/connect">
-    <ion-nav-view name="tab-connect"></ion-nav-view>
-  </ion-tab>
-
-  <!-- Chats Tab -->
+  <!-- Lists SEMA interventions -->
   <ion-tab title="Interventions" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/inter">
     <ion-nav-view name="tab-inter"></ion-nav-view>
   </ion-tab>
 
-  <!-- Account Tab -->
-  <ion-tab title="Settings" icon-off="ion-ios-settings" icon-on="ion-ios-settings-strong" href="#/tab/settings">
-    <ion-nav-view name="tab-settings"></ion-nav-view>
+  <!-- Search for SEMA interventions -->
+  <ion-tab title="Search" icon-off="ion-ios-search" icon-on="ion-ios-search-strong" href="#/tab/search">
+    <ion-nav-view name="tab-search"></ion-nav-view>
   </ion-tab>
 
-  <!-- Account Tab -->
-  <ion-tab title="About" icon-off="ion-ios-information-outline" icon-on="ion-ios-information" href="#/tab/about">
+  <!-- Get informations about the app -->
+  <!-- <ion-tab title="About" icon-off="ion-ios-information-outline" icon-on="ion-ios-information" href="#/tab/about">
     <ion-nav-view name="tab-about"></ion-nav-view>
+  </ion-tab> -->
+
+  <!-- Disconnection. Send "Disconnect" to SEMA and go to homepage. -->
+  <ion-tab title="Disconnect" icon-off="ion-ios-close-outline" icon-on="ion-ios-close" href="#/intro">
+    <ion-nav-view name="intro"></ion-nav-view>
   </ion-tab>
 
 </ion-tabs>

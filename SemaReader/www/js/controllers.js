@@ -43,6 +43,16 @@ angular.module('starter.controllers', [])
   //Nothing to do right now
 })
 
+.controller('InterCtrl', function($scope)
+{
+  //Nothing to do right now
+})
+
+.controller('SearchCtrl', function($scope)
+{
+  //Nothing to do right now
+})
+
 .controller("IntroCtrl", function($scope, $http, $timeout, $state, $ionicPopup)
 {
   //Sets a 5s timeout to go to next page
@@ -62,11 +72,6 @@ angular.module('starter.controllers', [])
 
   $scope.login = function()
   {
-    /*if($scope.data.username == 'aaa' && $scope.data.password == "bbb")
-    {
-      $state.go('tab.inter');
-    }*/
-
     //Establish connection to SEMA server
     $http.get("http://172.16.16.204:8080/SemaServer/public/v1/info")
     .success(function(data)
