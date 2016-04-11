@@ -1,19 +1,5 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['starter.services'])
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
 
 .controller('ConnectCtrl', function($scope, LoginService, $ionicPopup, $state)
 {
@@ -48,57 +34,54 @@ angular.module('starter.controllers', [])
   //Nothing to do right now
 })
 
-.controller('SearchCtrl', function($scope)
+.controller('SearchCtrl', function($scope, $http, $state, $ionicPopup)
 {
-  //Nothing to do right now
-})
-
-.controller("IntroCtrl", function($scope, $http, $timeout, $state, $ionicPopup)
-{
-  //Sets a 5s timeout to go to next page
-  /*
-  $timeout(function()
+  $scope.search = function()
   {
-      $state.go("tab.connect");
-  }, 5000);
+    $searchURL = "http://172.16.16.204:8080/SemaServer/public/v1/pdq/vid/"
 
-  $scope.go = function()
-  {
-    $state.go("tab.connect");
-  };
-  */
-
-  $scope.data = {};
-
-  $scope.login = function()
-  {
     //Establish connection to SEMA server
-    $http.get("http://172.16.16.204:8080/SemaServer/public/v1/info")
+    $http.get($searchURL)
     .success(function(data)
     {
       $state.go('tab.inter');
     })
     .error(function(data)
     {
-      var alertPopup = $ionicPopup.alert({
-                title: 'Connection failed!',
-                template: 'Please check your credentials!'
-            });
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'No result found',
+        template: 'Please check your criteria!'
+      });
     });
-
-
-    /*LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data)
-    {
-      $state.go('tab.inter');
-    }).error(function(data)
-    {
-      $state.go('tab.about');
-    });*/
   }
-
 })
 
-.controller("ExampleController", function($scope, $timeout)
+
+.controller("IntroCtrl", function($scope, $http, $state, $ionicPopup)//, authService)
 {
+  //authService.ClearCredentials();
+  $scope.data = {};
+
+  $scope.login = function()
+  {
+    $scope.data.result = "http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username
+    
+    //Establish connection to SEMA server
+    //$scope.data.username, $scope.data.password
+    $http.get("http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username)
+    //$http.get("http://172.16.16.204:8080/SemaServer/public/v1/")
+    .success(function()
+    {
+      $state.go('tab.search');
+    })
+    .error(function()
+    {
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'Connection failed',
+        template: 'Please check your credentials!'
+      });
+    });
+  }
 });
-;
