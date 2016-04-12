@@ -11,7 +11,7 @@ angular.module('starter.controllers', ['starter.services'])
         }).error(function(data) {
             var alertPopup = $ionicPopup.alert({
                 title: 'Login failed!',
-                template: 'Please check your credentials!'
+                template: 'Please check your credentials.'
             });
         });
     }
@@ -34,11 +34,46 @@ angular.module('starter.controllers', ['starter.services'])
   //Nothing to do right now
 })
 
+
+/**
+ * Manages the search engine via SEMA exchange
+ * @Param data.patientID ID of the patient (optional)
+ * @Param data.patientName Name of the patient (optional)
+ * @Param data.interventionID ID of the intervention (optional)
+ * @Param data.interventionDate Date of the intervention (optional)
+ * @Param data.sortChoice Above-mentioned key used for sorting the interventions (optional)
+ */
 .controller('SearchCtrl', function($scope, $http, $state, $ionicPopup)
 {
+  $scope.data = {};
+
   $scope.search = function()
   {
-    $searchURL = "http://172.16.16.204:8080/SemaServer/public/v1/pdq/vid/"
+    $scope.data.result = "Test " + $scope.data.sortChoice
+
+    if(angular.isUndefined($scope.data.patientID) && angular.isUndefined($scope.data.patientName) &&
+      angular.isUndefined($scope.data.interventionID) && angular.isUndefined($scope.data.interventionDate))
+    {
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'No search parameter',
+        template: 'Please fill at least one field to perform the search.'
+      });
+    }
+    else if (angular.isUndefined($scope.data.sortChoice))
+    {
+      var alertPopup = $ionicPopup.alert(
+      {
+        title: 'No sorting key',
+        template: 'Please select a value to filter the results.'
+      });
+    }
+    else
+    {
+
+    };
+
+    /*$searchURL = "http://172.16.16.204:8080/SemaServer/public/v1/pdq/vid/"
 
     //Establish connection to SEMA server
     $http.get($searchURL)
@@ -53,11 +88,16 @@ angular.module('starter.controllers', ['starter.services'])
         title: 'No result found',
         template: 'Please check your criteria!'
       });
-    });
+    });*/
   }
 })
 
 
+/**
+ * Manages the connection to SEMA remote server
+ * @Param data.username username to login with
+ * @Param data.password password to login with
+ */
 .controller("IntroCtrl", function($scope, $http, $state, $ionicPopup)//, authService)
 {
   //authService.ClearCredentials();
@@ -66,22 +106,33 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.login = function()
   {
     $scope.data.result = "http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username
-    
-    //Establish connection to SEMA server
-    //$scope.data.username, $scope.data.password
-    $http.get("http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username)
-    //$http.get("http://172.16.16.204:8080/SemaServer/public/v1/")
-    .success(function()
-    {
-      $state.go('tab.search');
-    })
-    .error(function()
+
+    if(angular.isUndefined($scope.data.username) || angular.isUndefined($scope.data.password))
     {
       var alertPopup = $ionicPopup.alert(
       {
-        title: 'Connection failed',
-        template: 'Please check your credentials!'
+        title: 'Missing information',
+        template: 'Please fill all your credentials.'
       });
-    });
+    }
+    else
+    {
+      //Establish connection to SEMA server
+      //$scope.data.username, $scope.data.password
+      $http.get("http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username)
+      //$http.get("http://172.16.16.204:8080/SemaServer/public/v1/")
+      .success(function()
+      {
+        $state.go('tab.search');
+      })
+      .error(function()
+      {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'Connection failed',
+          template: 'SEMA server returned a failure due to invalid credentials.'
+        });
+      });
+    }
   }
 });

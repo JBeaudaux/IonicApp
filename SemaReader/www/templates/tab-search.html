@@ -28,14 +28,14 @@
 		<h3>Sort by :</h3>
 
 		<ion-list>
-			<ion-radio ng-model="sortChoice" ng-value="'A'">Patient ID</ion-radio>
-			<ion-radio ng-model="sortChoice" ng-value="'B'">Patient name</ion-radio>
-			<ion-radio ng-model="sortChoice" ng-value="'C'">Intervention ID</ion-radio>
-			<ion-radio ng-model="sortChoice" ng-value="'D'">Intervention date</ion-radio>
+			<ion-radio ng-model="data.sortChoice" ng-value="'A'">Patient ID</ion-radio>
+			<ion-radio ng-model="data.sortChoice" ng-value="'B'">Patient name</ion-radio>
+			<ion-radio ng-model="data.sortChoice" ng-value="'C'">Intervention ID</ion-radio>
+			<ion-radio ng-model="data.sortChoice" ng-value="'D'">Intervention date</ion-radio>
 		</ion-list>
 	</div>
 			
-	<button class="button button-block button-calm" ng-click="search()">Search</button>
+	<button class="button button-block button-calm" ng-click="search()">Search {{data.result}}</button>
 	
 	</ion-content>
 </ion-view>
