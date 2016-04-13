@@ -2,8 +2,14 @@ angular.module('starter.services', ['ngResource'])
 
 //angular.module('Authentication')
 
+.factory('logService', function() {
+	console.log("Here I am in Service")
+	return {}
+})
+
 .service('authService', function ()
 {
+	console.log("Got in authService")
 	/*var service = {};
 
 	// Attempts to login to remote server
@@ -23,6 +29,13 @@ angular.module('starter.services', ['ngResource'])
 				});
 			});
 	};*/
+
+	// Attempts to login to remote server
+	service.SemaLogin = function (user, pwd)
+	{
+		console.log("Got in authService")
+		//$http.get("http://172.16.16.204:8080/SemaServer/public/v1/")
+	};
 
 	//Clears all former creditentials
 	service.ClearCredentials = function ()

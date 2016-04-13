@@ -1,23 +1,6 @@
 angular.module('starter.controllers', ['starter.services'])
 
 
-.controller('ConnectCtrl', function($scope, LoginService, $ionicPopup, $state)
-{
-    $scope.data = {};
- 
-    $scope.login = function() {
-        LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
-            $state.go('tab.dash');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials.'
-            });
-        });
-    }
-})
-
-
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
     enableFriends: true
@@ -50,6 +33,7 @@ angular.module('starter.controllers', ['starter.services'])
   $scope.search = function()
   {
     $scope.data.result = "Test " + $scope.data.sortChoice
+    $searchURL = "http://172.16.16.204:8080/SemaServer/public/v1/pdq/vid/"
 
     if(angular.isUndefined($scope.data.patientID) && angular.isUndefined($scope.data.patientName) &&
       angular.isUndefined($scope.data.interventionID) && angular.isUndefined($scope.data.interventionDate))
@@ -70,27 +54,24 @@ angular.module('starter.controllers', ['starter.services'])
     }
     else
     {
-
-    };
-
-    /*$searchURL = "http://172.16.16.204:8080/SemaServer/public/v1/pdq/vid/"
-
-    //Establish connection to SEMA server
-    $http.get($searchURL)
-    .success(function(data)
-    {
-      $state.go('tab.inter');
-    })
-    .error(function(data)
-    {
-      var alertPopup = $ionicPopup.alert(
+      //Establish connection to SEMA server
+      $http.get($searchURL)
+      .success(function(data)
       {
-        title: 'No result found',
-        template: 'Please check your criteria!'
+        $state.go('tab.inter');
+      })
+      .error(function(data)
+      {
+        var alertPopup = $ionicPopup.alert(
+        {
+          title: 'No result found',
+          template: 'Please check your criteria!'
+        });
       });
-    });*/
+    };
   }
 })
+
 
 
 /**
@@ -98,16 +79,33 @@ angular.module('starter.controllers', ['starter.services'])
  * @Param data.username username to login with
  * @Param data.password password to login with
  */
-.controller("IntroCtrl", function($scope, $http, $state, $ionicPopup)//, authService)
+.controller("IntroCtrl", function($scope, $http, $state, $ionicPopup, authService)
 {
   //authService.ClearCredentials();
   $scope.data = {};
 
+
+  $scope.$on('event:authFailed', function(e, status)
+  {
+    var alertPopup = $ionicPopup.alert(
+    {
+      title: 'Connection failed',
+      template: 'Connection to SEMA server failed due to invalid credentials.'
+    });
+  });
+
+  $scope.$on('event:authSucceed', function(e, status)
+  {
+    $state.go('tab.search');
+  });
+
+
   $scope.login = function()
   {
-    $scope.data.result = "http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username
+    //window.authService.SemaLogin();
 
-    if(angular.isUndefined($scope.data.username) || angular.isUndefined($scope.data.password))
+    if(angular.isUndefined($scope.data.username) || angular.isUndefined($scope.data.password) ||
+      $scope.data.username === '' || $scope.data.password === '')
     {
       var alertPopup = $ionicPopup.alert(
       {
@@ -117,22 +115,11 @@ angular.module('starter.controllers', ['starter.services'])
     }
     else
     {
-      //Establish connection to SEMA server
-      //$scope.data.username, $scope.data.password
-      $http.get("http://172.16.16.204:8080/SemaServer/public/v1/" + $scope.data.username)
-      //$http.get("http://172.16.16.204:8080/SemaServer/public/v1/")
-      .success(function()
-      {
-        $state.go('tab.search');
-      })
-      .error(function()
-      {
-        var alertPopup = $ionicPopup.alert(
-        {
-          title: 'Connection failed',
-          template: 'SEMA server returned a failure due to invalid credentials.'
-        });
-      });
+      console.log("Got user=" + $scope.data.username + " and pass=" + $scope.data.password)
+
+      $scope.result = authService.SemaLogin($scope.data.username, $scope.data.password);
     }
   }
 });
+
+// Semadev : 37.58.177.187
