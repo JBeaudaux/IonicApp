@@ -1,9 +1,42 @@
 <ion-view view-title="Interventions">
   <ion-content class="padding">
 
-    <div style="margin-top: 64px; text-align: center;" ng-click="go()">
-      <h3 style="padding-top: 0px; margin-top: 0px;">Interventions...</h3>
+    <style>
+      .history-row {
+        border-bottom: 1px solid #CCC;
+        padding: 2px 4px 2px 4px !important;
+      }
+    </style>
+
+    <div style="margin: 8px;">
+      <div class="row history-row" style="font-weight: bold;">
+        <div class="col col-50">Intervention ID </div>
+        <div class="col col-25">Date</div>
+        <div class="col col-25">Type</div>
+      </div>
+      <div class="row history-row" style="background-color: {{ entry.bgCol }}; color: {{ entry.fgCol }}">
+        <div class="col col-50">053fe7f3-9b5d-409b-9ed4-9428e8987962</div>
+        <div class="col col-25">23/03/2016 08:52</div>
+        <div class="col col-25">Resting ECG</div>
+      </div>
+
+       <div class="row history-row" style="background-color: grey; color: {{ entry.fgCol }}">
+        <div class="col col-50">053fe7f3-9b5d-409b-9ed4-9428e8987962</div>
+        <div class="col col-25">23/03/2016 08:36</div>
+        <div class="col col-25">Rescue</div>
+      </div>
+
+      <div class="row history-row" style="background-color: {{ entry.bgCol }}; color: {{ entry.fgCol }}">
+        <div class="col col-50">123456</div>
+        <div class="col col-25">14/09/2015 08:53</div>
+        <div class="col col-25">Resting ECG</div>
+      </div>
     </div>
 
+    <ion-list ng-show="false">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="entry in history" type="item-text-wrap">
+        {{entry.label}}
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
